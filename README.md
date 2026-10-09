@@ -8,7 +8,7 @@ The server accepts connections from multiple clients, creates a separate `utun` 
 
 ---
 
-## How It Works
+## how it works
 
 The client opens a `utun` interface, assigns it an IP address (e.g., `10.0.0.2`), and sends all traffic through an encrypted UDP tunnel to the server.  
 The server receives a packet, identifies which client it came from (by IP and port), creates a new `utun` for a new client (e.g., `utun5` with IP `10.0.0.1`), and forwards the traffic.
@@ -17,12 +17,12 @@ The server receives a packet, identifies which client it came from (by IP and po
 
 ---
 
-## Dependencies
+## dependencies
 
 - macOS  
 - `libsodium` (for encryption)
 
-### Installing libsodium on macOS
+### installing libsodium on macOS
 
 ```bash
 brew install libsodium
@@ -32,7 +32,7 @@ brew install libsodium
 
 ---
 
-## Build
+## build
 
 ```bash
 make          # builds both server and client
@@ -43,7 +43,7 @@ make clean    # removes compiled files
 
 ---
 
-## Key Generation (Required)
+## key Generation (Required)
 
 Both the client and the server must use the **same 32-byte key**.
 
@@ -63,11 +63,11 @@ Then copy the resulting `vpn.key` file to both the client and the server.
 
 ---
 
-## Configuration
+## configuration
 
 Copy the `vpn_serv.conf` and `vpn_cli.conf` files to the directory with the binaries.
 
-### Example `vpn_serv.conf`
+### example `vpn_serv.conf`
 
 ```
 UDP_PORT = 12346
@@ -76,7 +76,7 @@ MAX_CLIENTS = 256
 LOG_FILE = /var/log/vpn.log
 ```
 
-### Example `vpn_cli.conf`
+### example `vpn_cli.conf`
 
 ```
 REMOTE_IP = 127.0.0.1
@@ -91,9 +91,9 @@ SERVER_TUN_IP = 10.0.0.1
 
 ---
 
-## Running
+## running
 
-### Server
+### server
 
 ```bash
 sudo ./bin/vpn_server
@@ -103,7 +103,7 @@ The server will listen on the UDP port specified in the configuration file and c
 
 <img width="435" height="284" alt="Screenshot 2026-05-08 at 18 43 44" src="https://github.com/user-attachments/assets/5212ac37-cdb8-46ae-8b00-31ef888a130a" />
 
-### Client
+### client
 
 ```bash
 sudo ./bin/vpn_client
@@ -159,13 +159,13 @@ Network operations must not block each other. The program uses `poll` (or `selec
 
 ---
 
-## Control
+## control
 
 Press `Ctrl+C` to stop the program. It will close the TUN interface and display statistics showing how many bytes and packets were transferred.
 
 ---
 
-## Project Structure
+## project Structure
 
 ```
 vpn/
@@ -181,7 +181,7 @@ vpn/
 
 ---
 
-## Testing
+## testing
 
 From the client, ping the server’s tunnel IP address:
 
@@ -196,7 +196,7 @@ You should receive replies.
 
 ---
 
-## References
+## references
 
 - [Silence on the Wire by Michal Zalewski](https://lcamtuf.coredump.cx/) (main inspiration for passive analysis)
 - [Beej’s Guide to Network Programming](https://beej.us/guide/bgnet/)
@@ -205,7 +205,7 @@ You should receive replies.
 
 ---
 
-## Notes
+## notes
 
 - To run this project on Linux, replace the `socket(PF_SYSTEM, ...)` calls with `open("/dev/net/tun", ...)`.  
 - The project uses ChaCha20-Poly1305 from libsodium, a modern and fast encryption algorithm.  
